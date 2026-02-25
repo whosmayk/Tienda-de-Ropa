@@ -14,6 +14,18 @@ if(isset($_POST['update'])){
     $stmt->execute([$_POST['nombre'], $_POST['puesto'], $_POST['id_empleado']]);
     header("Location: empleados.php?msg=actualizado");
 }
+
+// 3. Lógica para ELIMINAR
+if(isset($_GET['delete'])){
+    try {
+        $stmt = $conn->prepare("DELETE FROM empleado WHERE id_empleado = ?");
+        $stmt->execute([$_GET['delete']]);
+        header("Location: empleados.php?msg=eliminado");
+    } catch (Exception $e) {
+        // Error común: El empleado tiene registros asociados en la tabla 'registro'
+        $error = "No se puede eliminar este empleado porque tiene registros de mercancía asociados.";
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -68,10 +80,17 @@ if(isset($_POST['update'])){
                                         <td>{$row['nombre']}</td>
                                         <td><span class='badge " . ($row['puesto'] == 'gerente' ? 'bg-danger' : 'bg-info') . "'>{$row['puesto']}</span></td>
                                         <td class='text-center'>
-                                            <button class='btn btn-sm btn-warning' 
-                                                onclick='abrirEditar({$row['id_empleado']}, \"{$row['nombre']}\", \"{$row['puesto']}\")'>
-                                                Editar
-                                            </button>
+                                            <div class='btn-group'>
+                                                <button class='btn btn-sm btn-warning' 
+                                                    onclick='abrirEditar({$row['id_empleado']}, \"{$row['nombre']}\", \"{$row['puesto']}\")'>
+                                                    Editar
+                                                </button>
+                                                <a href='empleados.php?delete={$row['id_empleado']}' 
+                                                   class='btn btn-sm btn-danger' 
+                                                   onclick='return confirm(\"¿Estás seguro de eliminar este empleado?\")'>
+                                                    Eliminar
+                                                </a>
+                                            </div>
                                         </td>
                                       </tr>";
                             }

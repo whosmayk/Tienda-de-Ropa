@@ -46,7 +46,6 @@ if(isset($_POST['registrar_recepcion'])){
                 </thead>
                 <tbody>
                     <?php
-                    // Consulta con 3 JOINS para traer los nombres en lugar de IDs
                     $sql = "SELECT r.fecha_registro, p.nombre as prenda, e.nombre as empleado, prov.nombre as proveedor
                             FROM registro r
                             JOIN prenda p ON r.id_prenda = p.id_prenda
@@ -102,7 +101,10 @@ if(isset($_POST['registrar_recepcion'])){
                             <select name="id_proveedor" class="form-select" required>
                                 <?php
                                 $provs = $conn->query("SELECT id_proveedor, nombre FROM proveedor");
-                                while($pr = $provs->fetch()) echo "<option value='{$row['id_proveedor']}'>{$pr['nombre']}</option>";
+                                while($pr = $provs->fetch()) {
+                                    // CORRECCIÓN AQUÍ: Antes decía $row, debe decir $pr
+                                    echo "<option value='{$pr['id_proveedor']}'>{$pr['nombre']}</option>";
+                                }
                                 ?>
                             </select>
                         </div>
@@ -115,6 +117,5 @@ if(isset($_POST['registrar_recepcion'])){
             </div>
         </div>
     </div>
-
 </body>
 </html>
