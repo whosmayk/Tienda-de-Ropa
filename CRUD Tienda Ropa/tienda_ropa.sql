@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `tienda_ropa` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `tienda_ropa`;
 -- MySQL dump 10.13  Distrib 8.0.44, for Win64 (x86_64)
 --
 -- Host: localhost    Database: tienda_ropa
@@ -14,13 +16,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
--- Crea la base de datos
-CREATE DATABASE tienda_ropa DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
-USE tienda_ropa;
 
 --
 -- Table structure for table `actualizacion`
@@ -307,6 +302,146 @@ LOCK TABLES `talla` WRITE;
 INSERT INTO `talla` VALUES (1,'ch'),(2,'m'),(3,'g'),(7,'ech'),(8,'eg');
 /*!40000 ALTER TABLE `talla` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Temporary view structure for view `vw_historial_precios`
+--
+
+DROP TABLE IF EXISTS `vw_historial_precios`;
+/*!50001 DROP VIEW IF EXISTS `vw_historial_precios`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `vw_historial_precios` AS SELECT 
+ 1 AS `id_actualizacion`,
+ 1 AS `fecha`,
+ 1 AS `prenda`,
+ 1 AS `precio_anterior`,
+ 1 AS `precio_nuevo`,
+ 1 AS `empleado`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `vw_movimientos_stock`
+--
+
+DROP TABLE IF EXISTS `vw_movimientos_stock`;
+/*!50001 DROP VIEW IF EXISTS `vw_movimientos_stock`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `vw_movimientos_stock` AS SELECT 
+ 1 AS `id_movimiento`,
+ 1 AS `fecha`,
+ 1 AS `tipo_movimiento`,
+ 1 AS `cantidad`,
+ 1 AS `prenda`,
+ 1 AS `empleado`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `vw_prendas_detalle`
+--
+
+DROP TABLE IF EXISTS `vw_prendas_detalle`;
+/*!50001 DROP VIEW IF EXISTS `vw_prendas_detalle`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `vw_prendas_detalle` AS SELECT 
+ 1 AS `id_prenda`,
+ 1 AS `nombre`,
+ 1 AS `precio`,
+ 1 AS `stock_actual`,
+ 1 AS `categoria`,
+ 1 AS `talla`,
+ 1 AS `color`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `vw_registro_proveedores`
+--
+
+DROP TABLE IF EXISTS `vw_registro_proveedores`;
+/*!50001 DROP VIEW IF EXISTS `vw_registro_proveedores`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `vw_registro_proveedores` AS SELECT 
+ 1 AS `id_registro`,
+ 1 AS `fecha_registro`,
+ 1 AS `prenda`,
+ 1 AS `empleado`,
+ 1 AS `proveedor`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Final view structure for view `vw_historial_precios`
+--
+
+/*!50001 DROP VIEW IF EXISTS `vw_historial_precios`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `vw_historial_precios` AS select `a`.`id_actualizacion` AS `id_actualizacion`,`a`.`fecha` AS `fecha`,`p`.`nombre` AS `prenda`,`a`.`precio_anterior` AS `precio_anterior`,`a`.`precio_nuevo` AS `precio_nuevo`,`e`.`nombre` AS `empleado` from ((`actualizacion` `a` join `prenda` `p` on((`a`.`id_prenda` = `p`.`id_prenda`))) join `empleado` `e` on((`a`.`id_empleado` = `e`.`id_empleado`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `vw_movimientos_stock`
+--
+
+/*!50001 DROP VIEW IF EXISTS `vw_movimientos_stock`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `vw_movimientos_stock` AS select `m`.`id_movimiento` AS `id_movimiento`,`m`.`fecha` AS `fecha`,`m`.`tipo_movimiento` AS `tipo_movimiento`,`m`.`cantidad` AS `cantidad`,`p`.`nombre` AS `prenda`,`e`.`nombre` AS `empleado` from ((`movimiento_stock` `m` join `prenda` `p` on((`m`.`id_prenda` = `p`.`id_prenda`))) join `empleado` `e` on((`m`.`id_empleado` = `e`.`id_empleado`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `vw_prendas_detalle`
+--
+
+/*!50001 DROP VIEW IF EXISTS `vw_prendas_detalle`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `vw_prendas_detalle` AS select `p`.`id_prenda` AS `id_prenda`,`p`.`nombre` AS `nombre`,`p`.`precio` AS `precio`,`p`.`stock_actual` AS `stock_actual`,`c`.`nombre` AS `categoria`,`t`.`talla` AS `talla`,`co`.`nombre` AS `color` from (((`prenda` `p` join `categoria` `c` on((`p`.`id_categoria` = `c`.`id_categoria`))) join `talla` `t` on((`p`.`id_talla` = `t`.`id_talla`))) join `color` `co` on((`p`.`id_color` = `co`.`id_color`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `vw_registro_proveedores`
+--
+
+/*!50001 DROP VIEW IF EXISTS `vw_registro_proveedores`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `vw_registro_proveedores` AS select `r`.`id_registro` AS `id_registro`,`r`.`fecha_registro` AS `fecha_registro`,`p`.`nombre` AS `prenda`,`e`.`nombre` AS `empleado`,`pr`.`nombre` AS `proveedor` from (((`registro` `r` join `prenda` `p` on((`r`.`id_prenda` = `p`.`id_prenda`))) join `empleado` `e` on((`r`.`id_empleado` = `e`.`id_empleado`))) join `proveedor` `pr` on((`r`.`id_proveedor` = `pr`.`id_proveedor`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -317,4 +452,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-03-23 23:20:11
+-- Dump completed on 2026-03-25 19:32:10
