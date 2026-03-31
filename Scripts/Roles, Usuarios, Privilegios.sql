@@ -73,10 +73,9 @@ JOIN prenda P ON R.id_prenda = P.id_prenda
 JOIN empleado E ON R.id_empleado = E.id_empleado
 JOIN proveedor PR ON R.id_proveedor = PR.id_proveedor;
 
--- 9. VERIFICACIÓN FINAL
 FLUSH PRIVILEGES;
 
--- Pruebas de lectura
+-- Pruebas
 SELECT * FROM vw_prendas_detalle;
 SELECT * FROM vw_movimientos_stock;
 SELECT * FROM vw_historial_precios;
