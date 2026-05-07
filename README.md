@@ -1,4 +1,6 @@
-# Tienda-de-Ropa
+# Tienda-de-Ropa - OUTDATED
+Development has stopped and won't be mantained
+
 CRUD para Proyecto de Tienda de ropa para Taller de Bases de Datos
 
 
